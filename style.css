@@ -1,0 +1,28 @@
+#header {
+  background-color: darkgrey;
+}
+
+.box {
+  border: solid grey 1px;
+  height: 30VH;
+  /* margin-left: 10vw; */
+}
+
+#left-block {
+  float: left;
+}
+
+.center, p {
+  float: none;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#right-block {
+  float: right;
+}
+
+#comment-box {
+  height: 30vh;
+  border: solid lightgrey 1px;
+}
