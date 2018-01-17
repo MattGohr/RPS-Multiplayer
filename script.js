@@ -25,6 +25,7 @@ function fillBlock(block, name) {
   var losses = $('<p class=\'losses\'>Losses: </p>');
 
   var spanWin = $("<span>");
+
   var spanLos = $("<span>");
 
 
