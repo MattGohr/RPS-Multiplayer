@@ -16,20 +16,27 @@ var player1, player2;
 function fillBlock(block, name) {
   var NameP = $('<p>');
   NameP.text(name);
+  $('#' + block).children().remove()
+  var rock = $("<button class=\'btn btn-secondary\'> Rock </button>");
+  var paper = $("<button class=\'btn btn-secondary\'> Paper </button>");
+  var scissors = $("<button class=\'btn btn-secondary\'> Scissors </button>");
+  var p = $('<p class=\'name\'>' + name + '</p>');
+  var wins = $('<p class=\'wins\'>Wins: </p>');
+  var losses = $('<p class=\'losses\'>Losses: </p>');
 
-  var Rock = $("<button class=\'btn btn-secondary\'> Rock </button>");
-  var Paper = $("<button class=\'btn btn-secondary\'> Paper </button>");
-  var Scissors = $("<button class=\'btn btn-secondary\'> Scissors </button>");
-
-  Paper.append(Scissors);
+  var spanWin = $("<span>");
+  var spanLos = $("<span>");
 
 
-  $('#' + block).append()
-  $('#' + block).append("<button class=\'btn btn-secondary\'> Paper </button>")
-  $('#' + block).append("<button class=\'btn btn-secondary\'> Scissors </button>")
+  wins.attr('id', 'wins-' + name);
+  losses.attr('id', 'losses-' + name);
 
-
-  $('#' + block).append();
+  $('#' + block).append(p);
+  $('#' + block).append(rock);
+  $('#' + block).append(paper);
+  $('#' + block).append(scissors);
+  $('#' + block).append(wins);
+  $('#' + block).append(losses);
 }
 
 function mainClickEvent() {
@@ -50,7 +57,7 @@ function mainClickEvent() {
       player2 = $("#gamer-tag").val().trim();
       console.log(player2);
 
-      fillBlock('left-block', player1);
+      fillBlock('right-block', player1);
     }
 
   });
@@ -60,6 +67,6 @@ function mainClickEvent() {
 
 
 
-
+mainClickEvent();
 
 $(document).on("click", ".btn", mainClickEvent);
