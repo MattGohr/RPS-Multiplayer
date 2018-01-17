@@ -12,6 +12,10 @@
   float: left;
 }
 
+body {
+  /* background-color: ivory; */
+}
+
 .center, p {
   float: none;
   margin: 0 auto;
