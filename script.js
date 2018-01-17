@@ -14,9 +14,12 @@ var player = 0;
 var player1, player2;
 
 function fillBlock(block, name) {
+  //remove the text from the block
+  $('#' + block).children().remove()
+
+  //add elements
   var NameP = $('<p>');
   NameP.text(name);
-  $('#' + block).children().remove()
   var rock = $("<button class=\'btn btn-secondary\'> Rock </button>");
   var paper = $("<button class=\'btn btn-secondary\'> Paper </button>");
   var scissors = $("<button class=\'btn btn-secondary\'> Scissors </button>");
@@ -24,18 +27,23 @@ function fillBlock(block, name) {
   var wins = $('<p class=\'wins\'>Wins: </p>');
   var losses = $('<p class=\'losses\'>Losses: </p>');
 
+  //create span tags
   var spanWin = $("<span>");
   var spanLos = $("<span>");
 
-  wins.append(spanWin);
-  losses.append(spanLos);
-
+  //add the inital score
   spanWin.text('0');
   spanLos.text('0');
 
+  //span ids as the players name so it's easier to replace later on in the game
   spanWin.attr('id', 'wins-' + name);
   spanLos.attr('id', 'losses-' + name);
 
+  //append span to wins and losses
+  wins.append(spanWin);
+  losses.append(spanLos);
+
+  // add all the stuff to the block
   $('#' + block).append(p);
   $('#' + block).append(rock);
   $('#' + block).append(paper);
