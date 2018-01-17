@@ -25,12 +25,16 @@ function fillBlock(block, name) {
   var losses = $('<p class=\'losses\'>Losses: </p>');
 
   var spanWin = $("<span>");
-
   var spanLos = $("<span>");
 
+  wins.append(spanWin);
+  losses.append(spanLos);
 
-  wins.attr('id', 'wins-' + name);
-  losses.attr('id', 'losses-' + name);
+  spanWin.text('0');
+  spanLos.text('0');
+
+  spanWin.attr('id', 'wins-' + name);
+  spanLos.attr('id', 'losses-' + name);
 
   $('#' + block).append(p);
   $('#' + block).append(rock);
