@@ -85,6 +85,7 @@ function mainClickEvent() {
 
       //add to database
       database.ref("players").update(newPlayer);
+      removeInput(player1, player)
 
     } else if (player === 1) {
       //get variable
@@ -101,6 +102,7 @@ function mainClickEvent() {
 
       //add to database
       database.ref("players").update(newPlayer);
+      removeInput(player2, player)
     }
   });
 }
@@ -112,19 +114,23 @@ function removeInput(name, playerNum) {
 
   var helloMsg = $("<p>");
   helloMsg.text('Hi ' + name + ' You are Player ');
-  var helloMsgSpan =
+  var helloMsgSpan = $("<span>");
+  helloMsgSpan.attr('id', 'span-name');
+  helloMsg.append(helloMsgSpan);
+  var turnMsg = $("<p>");
+  turnMsg.text('it\'s your turn!');
+  turnMsg.attr('id', 'turn-div');
 
+  $("#gamer-tag-div").append(helloMsg)
+  $("#gamer-tag-div").append(turnMsg)
 }
 
 //on load fill Blocks
 database.ref("players").on("child_added", function(childSnapshot, prevChildKey) {
-  console.log(childSnapshot.val().name);
-  console.log(childSnapshot);
+
   fillBlock(Number(childSnapshot.key), childSnapshot.val().name, false, childSnapshot.val().wins, childSnapshot.val().losses);
   player++;
 });
-
-
 
 
 mainClickEvent();
