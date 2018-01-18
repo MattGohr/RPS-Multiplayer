@@ -15,6 +15,7 @@ var player = 0;
 
 function fillBlock(playerNum, name, skip, wins, losses) {
 
+  //decide what block to put data into depending on the key
   if (playerNum === 1) {
     var block = "left-block";
   } else if (playerNum === 2) {
@@ -23,9 +24,7 @@ function fillBlock(playerNum, name, skip, wins, losses) {
   //remove the text from the block
   $('#' + block).children().remove();
 
-
-
-  //add elements
+  //init elements
   var NameP = $('<p>');
   NameP.text(name);
   var rock = $("<div class='btn-holder'><button class=\'btn btn-secondary\'> Rock </button></div>");
@@ -71,8 +70,8 @@ function mainClickEvent() {
   $("#start").on('click', function() {
 
     if (player === 0) {
-      player++;
 
+      //get player
       player1 = $("#gamer-tag").val().trim();
       console.log(player1);
 
@@ -83,12 +82,12 @@ function mainClickEvent() {
           losses: 0
         }
       }
+
+      //add to database
       database.ref("players").update(newPlayer);
-      // fillBlock('left-block', player1);
 
     } else if (player === 1) {
-      player++;
-
+      //get variable
       player2 = $("#gamer-tag").val().trim();
       console.log(player2);
 
@@ -100,23 +99,29 @@ function mainClickEvent() {
         }
       }
 
+      //add to database
       database.ref("players").update(newPlayer);
-      // fillBlock('right-block', player1);
     }
   });
 }
 
+//remove input button
+function removeInput(name, playerNum) {
+  //gamer remove gamer tag
+  $("#gamer-tag-div").children().remove();
+
+  var helloMsg = $("<p>");
+  helloMsg.text('Hi ' + name + ' You are Player ');
+  var helloMsgSpan =
+
+}
+
 //on load fill Blocks
-database.ref("players").on("value", function(dataSnapshot) {
-
-  dataSnapshot.forEach(function(data) {
-    console.log("The Key is" + data.key + "and name is " + data.val().name);
-    player++
-    console.log('player number is :' + player);
-
-    fillBlock(Number(data.key), data.val().name, false, data.val().wins, data.val().losses)
-  });
-
+database.ref("players").on("child_added", function(childSnapshot, prevChildKey) {
+  console.log(childSnapshot.val().name);
+  console.log(childSnapshot);
+  fillBlock(Number(childSnapshot.key), childSnapshot.val().name, false, childSnapshot.val().wins, childSnapshot.val().losses);
+  player++;
 });
 
 
