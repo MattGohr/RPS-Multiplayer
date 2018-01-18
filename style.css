@@ -4,7 +4,7 @@
 
 .box {
   border: solid grey 1px;
-  height: 30VH;
+  height: 200px;
   /* margin-left: 10vw; */
 }
 
@@ -12,11 +12,15 @@
   float: left;
 }
 
+.btn {
+  width: 100px
+}
+
 body {
   /* background-color: ivory; */
 }
 
-.center, p {
+.center, p, .btn-holder {
   float: none;
   margin: 0 auto;
   text-align: center;
