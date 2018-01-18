@@ -7,13 +7,14 @@ var config = {
   storageBucket: "first-project-3fa4f.appspot.com",
   messagingSenderId: "128232668232"
 };
+
 firebase.initializeApp(config);
 
 var database = firebase.database();
 var player = 0;
 var player1, player2;
 
-function fillBlock(block, name) {
+function fillBlock(block, name, skip) {
   //remove the text from the block
   $('#' + block).children().remove()
 
@@ -45,9 +46,15 @@ function fillBlock(block, name) {
 
   // add all the stuff to the block
   $('#' + block).append(p);
-  $('#' + block).append(rock);
-  $('#' + block).append(paper);
-  $('#' + block).append(scissors);
+
+  //skip the adding of rock
+  if (skip === true) {
+    $('#' + block).append('')
+  } else {
+    $('#' + block).append(rock);
+    $('#' + block).append(paper);
+    $('#' + block).append(scissors);
+  }
   $('#' + block).append(wins);
   $('#' + block).append(losses);
 }
@@ -61,8 +68,16 @@ function mainClickEvent() {
 
       player1 = $("#gamer-tag").val().trim();
       console.log(player1);
-      fillBlock('left-block', player1);
 
+      var newPlayer = {
+        1: {
+          name: player1,
+          wins: 0,
+          losses: 0
+        }
+      }
+      database.ref("players").update(newPlayer);
+      fillBlock('left-block', player1);
 
     } else if (player === 1) {
       player++;
@@ -70,13 +85,29 @@ function mainClickEvent() {
       player2 = $("#gamer-tag").val().trim();
       console.log(player2);
 
+      var newPlayer = {
+        2: {
+          name: player2,
+          wins: 0,
+          losses: 0
+        }
+      }
+
+      database.ref("players").update(newPlayer);
       fillBlock('right-block', player1);
     }
+  });
+}
 
+
+database.ref("players").on("value", function(dataSnapshot) {
+
+  dataSnapshot.forEach(function(data) {
+    console.log("The Key is" + data.key + "and name is " + data.val().name);
   });
 
+});
 
-}
 
 
 
