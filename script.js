@@ -13,9 +13,17 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var player = 0;
 
-function fillBlock(block, name, skip, wins, losses) {
+function fillBlock(playerNum, name, skip, wins, losses) {
+
+  if (playerNum === 1) {
+    var block = "left-block";
+  } else if (playerNum === 2) {
+    var block = "right-block";
+  }
   //remove the text from the block
-  $('#' + block).children().remove()
+  $('#' + block).children().remove();
+
+
 
   //add elements
   var NameP = $('<p>');
@@ -76,7 +84,7 @@ function mainClickEvent() {
         }
       }
       database.ref("players").update(newPlayer);
-      fillBlock('left-block', player1);
+      // fillBlock('left-block', player1);
 
     } else if (player === 1) {
       player++;
@@ -93,7 +101,7 @@ function mainClickEvent() {
       }
 
       database.ref("players").update(newPlayer);
-      fillBlock('right-block', player1);
+      // fillBlock('right-block', player1);
     }
   });
 }
@@ -104,6 +112,9 @@ database.ref("players").on("value", function(dataSnapshot) {
   dataSnapshot.forEach(function(data) {
     console.log("The Key is" + data.key + "and name is " + data.val().name);
     player++
+    console.log('player number is :' + player);
+
+    fillBlock(Number(data.key), data.val().name, false, data.val().wins, data.val().losses)
   });
 
 });
