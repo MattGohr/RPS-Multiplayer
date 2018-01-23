@@ -11,7 +11,9 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-var player = 0;
+//playercount
+var playerCount = 0;
+var myPlayer;
 
 function fillBlock(playerNum, name, skip, wins, losses) {
 
@@ -123,13 +125,15 @@ function removeInput(name, playerNum) {
 
   $("#gamer-tag-div").append(helloMsg)
   $("#gamer-tag-div").append(turnMsg)
+
 }
 
 //on load fill Blocks
 database.ref("players").on("child_added", function(childSnapshot, prevChildKey) {
 
   fillBlock(Number(childSnapshot.key), childSnapshot.val().name, false, childSnapshot.val().wins, childSnapshot.val().losses);
-  player++;
+  playerCount++;
+  myPlayer =
 });
 
 
