@@ -14,6 +14,7 @@ var database = firebase.database();
 //playercount
 var playerCount = 0;
 var myPlayer;
+var chosen = false;
 
 function fillBlock(playerNum, name, skip, wins, losses) {
 
@@ -67,11 +68,17 @@ function fillBlock(playerNum, name, skip, wins, losses) {
   $('#' + block).append(lossesP);
 }
 
+function determinPlayer(something) {
+
+
+  //if player then
+}
+
 function mainClickEvent() {
 
   $("#start").on('click', function() {
 
-    if (player === 0) {
+    if (playerCount === 0) {
 
       //get player
       player1 = $("#gamer-tag").val().trim();
@@ -87,9 +94,9 @@ function mainClickEvent() {
 
       //add to database
       database.ref("players").update(newPlayer);
-      removeInput(player1, player)
+      removeInput(player1, playerCount)
 
-    } else if (player === 1) {
+    } else if (playerCount === 1) {
       //get variable
       player2 = $("#gamer-tag").val().trim();
       console.log(player2);
@@ -104,13 +111,22 @@ function mainClickEvent() {
 
       //add to database
       database.ref("players").update(newPlayer);
-      removeInput(player2, player)
+      removeInput(player2, playerCount)
+
+    } else if (playerCount === 2) {
+      removeInput(playerCount)
+      console.log('too many players');
     }
   });
 }
 
 //remove input button
 function removeInput(name, playerNum) {
+
+  if (chosen === false) {
+    //do not delete and say you are player x
+
+  }
   //gamer remove gamer tag
   $("#gamer-tag-div").children().remove();
 
@@ -128,15 +144,19 @@ function removeInput(name, playerNum) {
 
 }
 
+console.log('before added');
 //on load fill Blocks
-database.ref("players").on("child_added", function(childSnapshot, prevChildKey) {
+var firstRun = database.ref("players").on("child_added", function(childSnapshot, prevChildKey) {
 
   fillBlock(Number(childSnapshot.key), childSnapshot.val().name, false, childSnapshot.val().wins, childSnapshot.val().losses);
   playerCount++;
-  myPlayer =
+  //myPlayer;
+  console.log(playerCount + 'second time');
 });
 
+// firstRun;
 
+console.log(playerCount);
 mainClickEvent();
 
 $(document).on("click", ".btn", mainClickEvent);
