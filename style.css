@@ -16,7 +16,7 @@
   width: 100px;
 }
 
-.wins, .losses {
+.wins-losses {
     position: absolute;
     bottom: 0;
 }

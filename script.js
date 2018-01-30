@@ -41,7 +41,7 @@ function fillBlock(playerNum, name, skip, wins, losses) {
   var paper = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps'> Paper </button></div>");
   var scissors = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps'> Scissors </button></div>");
   var nameP = $("<p class=name>" + name + "</p>");
-  var winsP = $("<p class='wins'>Wins: <span id=wins-" + playerCount + ">" + wins + "</span> Losses: <span id=losses-" + playerCount + "></span>" + losses + "</p>");
+  var winsP = $("<p class='wins-losses'>Wins: <span id=wins-" + playerCount + ">" + wins + "</span> Losses: <span id=losses-" + playerCount + "></span>" + losses + "</p>");
   // var lossesP = $('<p class=\'losses\'>Losses: </p>');
 
   //create span tags
@@ -167,7 +167,7 @@ function mainClickEvent() {
       $('#left-block').children().remove();
 
     }else if (playerCount === 2 && !myPlayer) {
-      // $('#left-block').children('.btn-holder').remove();
+      $('#left-block').children('.btn-holder').remove();
     }
   });
 
