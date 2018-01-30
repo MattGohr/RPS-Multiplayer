@@ -81,12 +81,12 @@ function mainClickEvent() {
     if (playerCount === 0) {
 
       //get player
-      player1 = $("#gamer-tag").val().trim();
-      console.log(player1);
+      myPlayer = $("#gamer-tag").val().trim();
+      console.log(myPlayer);
 
       var newPlayer = {
         1: {
-          name: player1,
+          name: myPlayer,
           wins: 0,
           losses: 0
         }
@@ -94,16 +94,16 @@ function mainClickEvent() {
 
       //add to database
       database.ref("players").update(newPlayer);
-      removeInput(player1, playerCount)
+      removeInput(myPlayer)
 
     } else if (playerCount === 1) {
       //get variable
-      player2 = $("#gamer-tag").val().trim();
-      console.log(player2);
+      myPlayer = $("#gamer-tag").val().trim();
+      console.log(myPlayer);
 
       var newPlayer = {
         2: {
-          name: player2,
+          name: myPlayer,
           wins: 0,
           losses: 0
         }
@@ -111,31 +111,27 @@ function mainClickEvent() {
 
       //add to database
       database.ref("players").update(newPlayer);
-      removeInput(player2, playerCount)
+      removeInput(myPlayer)
 
     } else if (playerCount === 2) {
-      removeInput(playerCount)
+      removeInput(myPlayer)
       console.log('too many players');
     }
   });
 }
 
 //remove input button
-function removeInput(name, playerNum) {
+function removeInput(name) {
 
-  if (chosen === false) {
-    //do not delete and say you are player x
-
-  }
   //gamer remove gamer tag
   $("#gamer-tag-div").children().remove();
 
   var helloMsg = $("<p>");
-  helloMsg.text('Hi ' + name + ' You are Player ');
   var helloMsgSpan = $("<span>");
+  var turnMsg = $("<p>");
+  helloMsg.text('Hi ' + name + ' You are Player ' + playerCount);
   helloMsgSpan.attr('id', 'span-name');
   helloMsg.append(helloMsgSpan);
-  var turnMsg = $("<p>");
   turnMsg.text('it\'s your turn!');
   turnMsg.attr('id', 'turn-div');
 
@@ -151,10 +147,24 @@ var firstRun = database.ref("players").on("child_added", function(childSnapshot,
   fillBlock(Number(childSnapshot.key), childSnapshot.val().name, false, childSnapshot.val().wins, childSnapshot.val().losses);
   playerCount++;
   //myPlayer;
-  console.log(playerCount + 'second time');
+  console.log('PLayer count: ' + playerCount);
+
+  //if too many players the
+  if (playerCount === 2 && !myPlayer) {
+    //gamer remove gamer tag
+    $("#gamer-tag-div").children().remove();
+
+    var helloMsg = $("<p>");
+    helloMsg.text('There are too many players right now please try again later :)');
+    $("#gamer-tag-div").append(helloMsg);
+    //remove the text from the block
+    $('#right-block').children().remove();
+    $('#left-block').children().remove();
+  }
 });
 
-// firstRun;
+//turn off updating
+// database.ref("players").off('child_added');
 
 console.log(playerCount);
 mainClickEvent();
