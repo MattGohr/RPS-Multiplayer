@@ -13,11 +13,12 @@
 }
 
 .btn {
-  width: 100px
+  width: 100px;
 }
 
-body {
-  /* background-color: ivory; */
+.wins, .losses {
+    position: absolute;
+    bottom: 0;
 }
 
 .center, p, .btn-holder {
