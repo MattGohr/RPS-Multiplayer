@@ -20,8 +20,9 @@ firebase.initializeApp(config);
 var database = firebase.database();
 //playercount
 var playerCount = 0;
-var myPlayer, deletPlayer2Btns;
+var myPlayer, deletPlayer2Btns, myPlayerNum, turn = 0;
 var chosen = false;
+
 
 function fillBlock(playerNum, name, skip, wins, losses) {
 
@@ -38,8 +39,8 @@ function fillBlock(playerNum, name, skip, wins, losses) {
   var NameP = $('<p>');
   NameP.text(name);
   var rock = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps' id=rock> Rock </button></div>");
-  var paper = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps' id=Paper> Paper </button></div>");
-  var scissors = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps' id=Scissors> Scissors </button></div>");
+  var paper = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps' id=paper> Paper </button></div>");
+  var scissors = $("<div class='btn-holder'><button class='btn btn-secondary btn-rps' id=scissors> Scissors </button></div>");
   var nameP = $("<p class=name>" + name + "</p>");
   var winsP = $("<p class='wins-losses'>Wins: <span id=wins-" + playerCount + ">" + wins + "</span> Losses: <span id=losses-" + playerCount + "></span>" + losses + "</p>");
 
@@ -67,6 +68,7 @@ function mainClickEvent() {
       //get player
       myPlayer = $("#gamer-tag").val().trim();
       console.log(myPlayer);
+      myPlayerNum = 1;
 
       var newPlayer = {
         1: {
@@ -84,6 +86,7 @@ function mainClickEvent() {
       //get variable
       myPlayer = $("#gamer-tag").val().trim();
       console.log(myPlayer);
+      myPlayerNum = 2;
 
       var newPlayer = {
         2: {
@@ -105,7 +108,13 @@ function mainClickEvent() {
 
   //rps clicked
   $(".btn-rps").on('click', function() {
-    console.log('clicked');
+    console.log(this.id);
+
+    //insert choice
+    database.ref("players/" + myPlayerNum).update({choice: this.id});
+
+    database.ref("players/" + myPlayerNum).update({choice: this.id});
+
 
   })
 }
@@ -156,10 +165,10 @@ database.ref("players").on("child_added", function(childSnapshot, prevChildKey) 
   } else if (playerCount === 2 && !myPlayer) {
     $('#left-block').children('.btn-holder').remove();
 
-
     //when enter playter 2 delete buttons for player 1
   } else if (playerCount === 3 && myPlayer && deletPlayer2Btns) {
     $('#right-block').children('.btn-holder').remove()
+
   } else if (playerCount === 2 && myPlayer) {
     deletPlayer2Btns = true;
   }
