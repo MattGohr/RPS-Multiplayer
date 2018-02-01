@@ -59,6 +59,14 @@ function fillBlock(playerNum, name, skip, wins, losses) {
   // $('#' + block).append(lossesP);
 }
 
+function rpsLogic () {
+  var player1Choice = database.ref("players/1/choice").val();
+  var player2Choice = database.ref("players/2/choice").val();
+
+  console.log(player1Choice);
+
+}
+
 function mainClickEvent() {
 
   $("#start").on('click', function() {
@@ -113,8 +121,8 @@ function mainClickEvent() {
     //insert choice
     database.ref("players/" + myPlayerNum).update({choice: this.id});
 
-    database.ref("players/" + myPlayerNum).update({choice: this.id});
-
+    turn++;
+    database.ref("players/turn").update(turn);
 
   })
 }
@@ -172,6 +180,10 @@ database.ref("players").on("child_added", function(childSnapshot, prevChildKey) 
   } else if (playerCount === 2 && myPlayer) {
     deletPlayer2Btns = true;
   }
+
+  if (turn === 2) {
+    rpsLogic();
+  }
 });
 
 //turn off updating
@@ -181,3 +193,6 @@ console.log(playerCount);
 mainClickEvent();
 
 $(document).on("click", ".btn", mainClickEvent);
+$(window).on('unload', function(){
+   database.ref("players/" + myPlayerNum).remove();
+});
