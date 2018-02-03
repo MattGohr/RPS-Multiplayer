@@ -20,7 +20,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 //playercount
 var playerCount = 0;
-var myPlayer, deletPlayer2Btns, myPlayerNum, turn = 0;
+var myPlayer, deletPlayer2Btns, myPlayerNum, turn;
 var chosen = false;
 
 
@@ -59,7 +59,7 @@ function fillBlock(playerNum, name, skip, wins, losses) {
   // $('#' + block).append(lossesP);
 }
 
-function rpsLogic () {
+function rpsLogic() {
   var player1Choice = database.ref("players/1/choice").val();
   var player2Choice = database.ref("players/2/choice").val();
 
@@ -119,10 +119,17 @@ function mainClickEvent() {
     console.log(this.id);
 
     //insert choice
-    database.ref("players/" + myPlayerNum).update({choice: this.id});
+    database.ref("players/" + myPlayerNum).update({
+      choice: this.id
+    });
 
-    turn++;
-    database.ref("players/turn").update(turn);
+    database.ref("players/turn").transaction(function(currentTurn) {
+      // If users/ada/rank has never been set, currentRank will be `null`.
+      return currentTurn + 1;
+    });
+
+    $(".btn-holder").children().remove();
+    // console.log('removed');
 
   })
 }
@@ -181,6 +188,9 @@ database.ref("players").on("child_added", function(childSnapshot, prevChildKey) 
     deletPlayer2Btns = true;
   }
 
+  turn = childSnapshot.val()
+  console.log(turn);
+
   if (turn === 2) {
     rpsLogic();
   }
@@ -193,6 +203,6 @@ console.log(playerCount);
 mainClickEvent();
 
 $(document).on("click", ".btn", mainClickEvent);
-$(window).on('unload', function(){
-   database.ref("players/" + myPlayerNum).remove();
+$(window).on('unload', function() {
+  database.ref("players/" + myPlayerNum).remove();
 });
